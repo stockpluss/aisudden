@@ -19,7 +19,7 @@ jobs:
 
       - name: Rsync to EC2
         run: |
-          rsync -avz --delete \
+          rsync -avz \
             --exclude '.git' \
             --exclude 'node_modules' \
             --exclude '.next' \
