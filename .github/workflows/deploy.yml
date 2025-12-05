@@ -28,9 +28,4 @@ jobs:
 
       - name: Build and Restart
         run: |
-          ssh ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
-            cd /home/ubuntu/aisudden
-            pnpm install --frozen-lockfile
-            pnpm run build
-            pm2 restart aisudden
-          EOF
+          ssh ubuntu@${{ secrets.EC2_HOST }} 'source ~/.nvm/nvm.sh && export PATH="/home/ubuntu/.local/share/pnpm:$PATH" && cd /home/ubuntu/aisudden && pnpm install --frozen-lockfile && pnpm run build && pm2 restart aisudden'
