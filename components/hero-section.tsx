@@ -114,11 +114,13 @@ export function HeroSection() {
                 실시간으로 급등주 포착
               </span>
             </h1>
-
-            <p className="text-lg sm:text-xl lg:text-2xl text-slate-300 leading-relaxed max-w-2xl mx-auto text-pretty">
-              AI가 시장을 실시간 분석하고,
-              <br className="hidden sm:inline" /> 타점, 손절, 목표가까지 정확하게 알려드립니다
-            </p>
+              <p className="text-lg sm:text-xl lg:text-2xl text-slate-300 leading-relaxed max-w-2xl mx-auto text-pretty">
+                  AI가 시장을 실시간 분석하고, <br/> 타점, 손절, 목표가까지 정확하게 알려드립니다
+              </p>
+              <div className="mt-8 space-y-3 max-w-2xl mx-auto">
+                  <p className="text-base sm:text-lg text-yellow-400 font-bold">힘들게 분석해도 상승주를 놓치고 있다면?</p>
+                  <p className="text-base sm:text-lg text-yellow-400 font-bold">고르는 주식마다 매번 실패하고 있다면?</p>
+              </div>
           </div>
         </div>
       </div>
