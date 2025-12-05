@@ -43,6 +43,10 @@ export default function RootLayout({
                 src="https://www.googletagmanager.com/gtag/js?id=G-K45WKWMEYX"
                 strategy="afterInteractive"
             />
+            <Script
+                src="https://www.googletagmanager.com/gtag/js?id=AW-17780944854"
+                strategy="afterInteractive"
+            />
             <Script id="google-gtag-init" strategy="afterInteractive">
                 {`
             window.dataLayer = window.dataLayer || [];
@@ -51,6 +55,7 @@ export default function RootLayout({
 
             // GA4 초기화
             gtag('config', 'G-K45WKWMEYX');
+            gtag('config', 'AW-17780944854');
           `}
             </Script>
         </head>

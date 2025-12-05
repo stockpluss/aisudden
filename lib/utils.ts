@@ -24,5 +24,12 @@ export function gtagReportConversion(url?: string) {
         event_callback: callback,
     });
 
+    (window as any).gtag("event", "conversion", {
+        send_to: "AW-17780944854/mF1tCNr8m8wbENbfzp5C",
+        value: 1.0,
+        currency: "KRW",
+        event_callback: callback,
+    });
+
     return false;
 }
