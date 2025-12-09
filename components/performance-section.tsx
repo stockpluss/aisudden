@@ -39,12 +39,12 @@ export function PerformanceSection() {
             />
           </div>
 
-          <div className="text-center p-8 rounded-2xl bg-gradient-to-r from-primary/20 to-secondary/20 border-2 border-dashed border-primary/40">
-            <DollarSign className="w-12 h-12 text-primary mx-auto mb-4" />
-            <p className="text-lg font-semibold mb-2 text-foreground">
-              2024년 평균 수익률: <span className="text-primary text-2xl">+47.3%</span>
-            </p>
-            <p className="text-sm text-muted-foreground">*과거 실적이 미래 수익을 보장하지 않습니다</p>
+          <div className="text-centerrounded-lg">
+              <img
+                  src="/images/awards.jpg"
+                  alt="로보티즈 +287% 급등 실적"
+                  className="w-full rounded-xl shadow-lg hover:shadow-xl transition-shadow"
+              />
           </div>
         </div>
       </div>

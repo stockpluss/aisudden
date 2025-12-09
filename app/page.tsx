@@ -11,7 +11,6 @@ export default function LandingPage() {
     <main className="relative min-h-screen">
       <HeroSection />
       <PerformanceSection />
-      <AwardSection />
       <TrustSection />
       <BenefitsSection />
       <Footer />
