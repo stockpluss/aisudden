@@ -1,11 +1,13 @@
 "use server"
 
+import { sendKakaoMessage } from "./send-kakao-message"
+
 export async function submitLead(formData: {
   name: string
   phone: string
 }) {
   try {
-    console.log("[v0] Starting submission with data:", { name: formData.name, phone: formData.phone })
+    console.log("[LandingPage] Starting submission with data:", { name: formData.name, phone: formData.phone })
 
     // 현재 시각 생성 (한국 시간)
     const now = new Date()
@@ -22,8 +24,8 @@ export async function submitLead(formData: {
       .replace(/\. /g, "-")
       .replace(".", "")
 
-    console.log("[v0] Formatted timestamp:", timestamp)
-    console.log("[v0] Apps Script URL:", process.env.APPS_SCRIPT_URL)
+    console.log("[LandingPage] Formatted timestamp:", timestamp)
+    console.log("[LandingPage] Apps Script URL:", process.env.APPS_SCRIPT_URL)
 
     // Apps Script로 데이터 전송
     const response = await fetch(process.env.APPS_SCRIPT_URL!, {
@@ -40,20 +42,35 @@ export async function submitLead(formData: {
       redirect: "manual",
     })
 
-    console.log("[v0] Response status:", response.status)
-    console.log("[v0] Response ok:", response.ok)
+    console.log("[LandingPage] Response status:", response.status)
+    console.log("[LandingPage] Response ok:", response.ok)
 
     // 200-299 또는 302 상태면 성공으로 처리
     if (response.ok || response.status === 302) {
-      console.log("[v0] Submission successful")
+      console.log("[LandingPage] Google Sheet submission successful")
+
+      // 카카오 알림톡 전송 (실패해도 전체는 성공으로 처리)
+      const phoneNumber = formData.phone.replace(/-/g, "")
+      const kakaoResult = await sendKakaoMessage({
+        to: phoneNumber,
+        name: formData.name,
+      })
+
+      if (!kakaoResult.success) {
+        console.error(
+          "[LandingPage] Kakao message failed (Google Sheet succeeded):",
+          kakaoResult.error
+        )
+      }
+
       return { success: true }
     }
 
     // 실패한 경우에만 에러 처리
-    console.log("[v0] Submission failed with status:", response.status)
+    console.log("[LandingPage] Submission failed with status:", response.status)
     throw new Error(`Failed to submit data: ${response.status}`)
   } catch (error) {
-    console.log("[v0] Submission error:", error)
+    console.log("[LandingPage] Submission error:", error)
     return {
       success: false,
       error: error instanceof Error ? error.message : "Unknown error",
