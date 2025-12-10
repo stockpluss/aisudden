@@ -12,21 +12,8 @@ export const metadata: Metadata = {
     description: "AI가 실시간으로 분석하고 알려주는 급등주 정보. 매달 공증된 실적 공개.",
     generator: "v0.app",
     icons: {
-        icon: [
-            {
-                url: "/icon-light-32x32.png",
-                media: "(prefers-color-scheme: light)",
-            },
-            {
-                url: "/icon-dark-32x32.png",
-                media: "(prefers-color-scheme: dark)",
-            },
-            {
-                url: "/icon.svg",
-                type: "image/svg+xml",
-            },
-        ],
-        apple: "/apple-icon.png",
+        icon: "/logo_64.png",
+        apple: "/logo_64.png",
     },
 }
 
