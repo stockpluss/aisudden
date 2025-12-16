@@ -24,7 +24,7 @@ export function FixedCTA() {
 
   const formatPhoneNumber = (value: string) => {
     // 숫자만 추출
-    const numbers = value.replace(/[^\d]/g, "")
+    const numbers = value.replace(/\D/g, "")
 
     // 길이에 따라 포맷 적용
     if (numbers.length <= 3) {
@@ -59,7 +59,7 @@ export function FixedCTA() {
 
     try {
       setIsSubmitting(true)
-      gtagReportConversion();
+      gtagReportConversion(formData.name.trim(), formData.phone.trim().replace(/\D/g, ""));
 
       const result = await submitLead({
         name: formData.name.trim(),

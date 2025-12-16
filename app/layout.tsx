@@ -26,10 +26,12 @@ export default function RootLayout({
         <html lang="ko">
         <head>
             {/* Google tag (gtag.js) */}
+            {/* old */}
             <Script
                 src="https://www.googletagmanager.com/gtag/js?id=G-K45WKWMEYX"
                 strategy="afterInteractive"
             />
+            {/* new */}
             <Script
                 src="https://www.googletagmanager.com/gtag/js?id=AW-17780944854"
                 strategy="afterInteractive"
@@ -41,8 +43,10 @@ export default function RootLayout({
             gtag('js', new Date());
 
             // GA4 초기화
-            gtag('config', 'G-K45WKWMEYX');
-            gtag('config', 'AW-17780944854');
+            // old
+            gtag('config', 'G-K45WKWMEYX', {'allow_enhanced_conversions': true});
+            // new
+            gtag('config', 'AW-17780944854', {'allow_enhanced_conversions': true});
           `}
             </Script>
         </head>
