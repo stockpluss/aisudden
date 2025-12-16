@@ -27,7 +27,7 @@ export async function gtagReportConversion(name: string, phoneNumber: string, ur
     };
 
     await (window as any).gtag("set", "user_data", {
-        "address.first_name": name,
+        "address": {"first_name": name},
         "phone_number": normalizedPhone
     });
 
