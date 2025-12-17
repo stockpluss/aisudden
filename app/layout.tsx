@@ -25,15 +25,9 @@ export default function RootLayout({
     return (
         <html lang="ko">
         <head>
-            {/* Google tag (gtag.js) */}
-            {/* old */}
+            {/* Google tag (gtag.js) - 스크립트는 한 번만 로드 */}
             <Script
                 src="https://www.googletagmanager.com/gtag/js?id=G-K45WKWMEYX"
-                strategy="afterInteractive"
-            />
-            {/* new */}
-            <Script
-                src="https://www.googletagmanager.com/gtag/js?id=AW-17780944854"
                 strategy="afterInteractive"
             />
             <Script id="google-gtag-init" strategy="afterInteractive">
@@ -42,11 +36,12 @@ export default function RootLayout({
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
 
-            // GA4 초기화
-            // old
+            // GA4
             gtag('config', 'G-K45WKWMEYX', {'allow_enhanced_conversions': true});
-            // new
+            // Google Ads (new)
             gtag('config', 'AW-17780944854', {'allow_enhanced_conversions': true});
+            // Google Ads (old) - conversion용
+            gtag('config', 'AW-11246851271', {'allow_enhanced_conversions': true});
           `}
             </Script>
         </head>
