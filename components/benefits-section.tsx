@@ -8,8 +8,8 @@ const benefits = [
   },
   {
     icon: Target,
-    title: "정확한 타점 제시",
-    description: "매수 타이밍과 목표가, 손절가까지 구체적인 전략을 제공합니다",
+    title: "정보가 아닌 전략 제시",
+    description: "단순 정보 제공이 아닌, 구체적인 전략을 제공합니다",
   },
   {
     icon: Bell,
@@ -32,9 +32,6 @@ export function BenefitsSection() {
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-balance text-foreground">
               AI 급등주, 이렇게 다릅니다
             </h2>
-            <p className="text-base sm:text-lg text-muted-foreground text-pretty">
-              단순한 정보 제공이 아닌, 실제 수익으로 연결되는 전략
-            </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
