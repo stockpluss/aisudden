@@ -1,6 +1,7 @@
 "use server"
 
 import { appendRow } from "@/lib/google-sheets"
+import { sendNotificationEmail } from "@/lib/gmail"
 import { sendKakaoMessage } from "./send-kakao-message"
 
 function getKoreanTimestamp(): string {
@@ -28,13 +29,27 @@ export async function submitLead(formData: {
 
     console.log("[stockplus] Starting submission:", { name: formData.name, phone: formData.phone })
 
-    await appendRow(
-      process.env.STOCKPLUS_SHEET_ID!,
-      process.env.STOCKPLUS_SHEET_TAB || "Sheet1",
-      [timestamp, formData.name, formData.phone]
-    )
+    const sheetId = process.env.STOCKPLUS_SHEET_ID!
+    const sheetTab = process.env.STOCKPLUS_SHEET_TAB || "Sheet1"
+
+    await appendRow(sheetId, sheetTab, [timestamp, formData.name, formData.phone])
 
     console.log("[stockplus] Google Sheet submission successful")
+
+    // 이메일 알림 발송 (실패해도 전체는 성공으로 처리, from/to 없으면 skip)
+    const emailResult = await sendNotificationEmail({
+      from: process.env.STOCKPLUS_EMAIL_FROM || "",
+      to: process.env.STOCKPLUS_EMAIL_TO || "",
+      name: formData.name,
+      phone: formData.phone,
+      timestamp,
+      sheetId,
+      sheetTab,
+    })
+
+    if (!emailResult.success) {
+      console.error("[stockplus] Email failed (Sheet succeeded):", emailResult.error)
+    }
 
     // 카카오 알림톡 전송 (실패해도 전체는 성공으로 처리)
     const phoneNumber = formData.phone.replace(/-/g, "")
