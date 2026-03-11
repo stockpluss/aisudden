@@ -9,7 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { submitLead } from "@/app/actions/submit-lead"
-import {gtagReportConversion} from "@/lib/utils";
+import {gtagReportConversion} from "@/lib/analytics";
 
 export function FixedCTA() {
   const [formData, setFormData] = useState({
@@ -59,7 +59,7 @@ export function FixedCTA() {
 
     try {
       setIsSubmitting(true)
-      gtagReportConversion(formData.name.trim(), formData.phone.trim().replace(/\D/g, ""));
+      gtagReportConversion("stockplus", formData.name.trim(), formData.phone.trim().replace(/\D/g, ""));
 
       const result = await submitLead({
         name: formData.name.trim(),

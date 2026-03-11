@@ -2,8 +2,13 @@
 
 import { SolapiMessageService } from "solapi"
 
-export async function sendKakaoMessage(params: { to: string; name: string }) {
+export async function sendKakaoMessage(params: { to: string; name: string; templateId?: string }) {
   try {
+    if (!params.templateId) {
+      console.log("[kakao] Template ID not provided, skipping alimtalk")
+      return { success: true, skipped: true }
+    }
+
     console.log("[kakao] Starting kakao message with data:", {
       to: params.to,
       name: params.name,
@@ -19,8 +24,8 @@ export async function sendKakaoMessage(params: { to: string; name: string }) {
       from: process.env.SOLAPI_FROM_NUMBER!,
       kakaoOptions: {
         pfId: process.env.KAKAO_CHANNEL_ID!,
-        templateId: process.env.KAKAO_TEMPLATE_ID!,
-        disableSms: false, // Send SMS if kakao message failed
+        templateId: params.templateId,
+        disableSms: false,
         variables: {
           "#{name}": params.name,
         },
