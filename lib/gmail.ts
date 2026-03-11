@@ -55,8 +55,11 @@ export async function sendNotificationEmail(options: {
 
   // Skip if from or to is missing
   if (!from || !to) {
+    console.log("[gmail] Skipping email (from or to is empty):", { from, to })
     return { success: true }
   }
+
+  console.log("[gmail] Sending email:", { from, to, name })
 
   try {
     const auth = getGmailAuthClient()
@@ -85,6 +88,7 @@ ${sheetUrl}
       requestBody: { raw },
     })
 
+    console.log("[gmail] Email sent successfully:", { from, to })
     return { success: true }
   } catch (error) {
     console.error("[gmail] Email send failed:", error)
