@@ -54,6 +54,7 @@ export async function submitLead(formData: {
       const kakaoResult = await sendKakaoMessage({
         to: phoneNumber,
         name: formData.name,
+        templateId: process.env.KAKAO_TEMPLATE_ID,
       })
 
       if (!kakaoResult.success) {
