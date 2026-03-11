@@ -34,8 +34,14 @@ export async function sendKakaoMessage(params: { to: string; name: string; templ
 
     console.log("[kakao] Message sent successfully:", result)
     return { success: true }
-  } catch (error) {
-    console.error("[kakao] Failed to send message:", error)
+  } catch (error: unknown) {
+    const err = error as Record<string, unknown>
+    console.error("[kakao] Failed to send message:", {
+      message: err?.message,
+      statusCode: err?.statusCode,
+      body: err?.body ?? err?.response,
+      raw: JSON.stringify(error, Object.getOwnPropertyNames(error as object)),
+    })
     return {
       success: false,
       error: error instanceof Error ? error.message : "Unknown error",
