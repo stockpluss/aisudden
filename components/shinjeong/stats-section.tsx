@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 
 interface StatItem {
   value: number
+  prefix: string
   suffix: string
   label: string
   description: string
@@ -13,6 +14,7 @@ interface StatItem {
 const STATS: StatItem[] = [
   {
     value: 47.3,
+    prefix: "+",
     suffix: "%",
     label: "평균 수익률",
     description: "AI 시그널 적용 기준",
@@ -20,13 +22,15 @@ const STATS: StatItem[] = [
   },
   {
     value: 24,
+    prefix: "",
     suffix: "/7",
     label: "실시간 분석",
     description: "24시간 365일 운영",
-    color: "text-accent",
+    color: "text-secondary",
   },
   {
     value: 12,
+    prefix: "+",
     suffix: "건",
     label: "일 평균 급등주 포착",
     description: "하루 평균 시그널 발송",
@@ -34,14 +38,15 @@ const STATS: StatItem[] = [
   },
   {
     value: 98,
+    prefix: "",
     suffix: "%",
     label: "회원 만족도",
     description: "실제 이용자 설문 기준",
-    color: "text-accent",
+    color: "text-secondary",
   },
 ]
 
-function Counter({ value, suffix, color }: { value: number; suffix: string; color: string }) {
+function Counter({ value, prefix, suffix, color }: { value: number; prefix: string; suffix: string; color: string }) {
   const [count, setCount] = useState(0)
   const ref = useRef<HTMLDivElement>(null)
   const started = useRef(false)
@@ -74,7 +79,7 @@ function Counter({ value, suffix, color }: { value: number; suffix: string; colo
 
   return (
     <div ref={ref} className={`text-4xl md:text-5xl font-black ${color}`} suppressHydrationWarning>
-      +{count}{suffix}
+      {prefix}{count}{suffix}
     </div>
   )
 }
@@ -101,7 +106,7 @@ export function StatsSection() {
               key={stat.label}
               className="flex flex-col items-center gap-2 p-6 rounded-2xl border border-border bg-background/50 text-center"
             >
-              <Counter value={stat.value} suffix={stat.suffix} color={stat.color} />
+              <Counter value={stat.value} prefix={stat.prefix} suffix={stat.suffix} color={stat.color} />
               <p className="text-sm font-bold text-foreground">{stat.label}</p>
               <p className="text-xs text-muted-foreground">{stat.description}</p>
             </div>
