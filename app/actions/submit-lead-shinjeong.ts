@@ -1,5 +1,6 @@
 "use server"
 
+import { appendRow } from "@/lib/google-sheets"
 import { sendKakaoMessage } from "./send-kakao-message"
 
 function getKoreanTimestamp(): string {
@@ -27,37 +28,26 @@ export async function submitLeadShinjeong(formData: {
 
     console.log("[shinjeong] Starting submission:", { name: formData.name, phone: formData.phone })
 
-    const response = await fetch(process.env.SHINJEONG_APPS_SCRIPT_URL!, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        token: process.env.SHINJEONG_SECRET_TOKEN,
-        timestamp,
-        name: formData.name,
-        phone: formData.phone,
-        source: "shinjeong.vc",
-      }),
-      redirect: "manual",
+    await appendRow(
+      process.env.SHINJEONG_SHEET_ID!,
+      process.env.SHINJEONG_SHEET_TAB || "Sheet1",
+      [timestamp, formData.name, formData.phone, "shinjeong.vc"]
+    )
+
+    console.log("[shinjeong] Google Sheet submission successful")
+
+    const phoneNumber = formData.phone.replace(/-/g, "")
+    const kakaoResult = await sendKakaoMessage({
+      to: phoneNumber,
+      name: formData.name,
+      templateId: process.env.SHINJEONG_KAKAO_TEMPLATE_ID,
     })
 
-    if (response.ok || response.status === 302) {
-      console.log("[shinjeong] Google Sheet submission successful")
-
-      const phoneNumber = formData.phone.replace(/-/g, "")
-      const kakaoResult = await sendKakaoMessage({
-        to: phoneNumber,
-        name: formData.name,
-        templateId: process.env.SHINJEONG_KAKAO_TEMPLATE_ID,
-      })
-
-      if (!kakaoResult.success) {
-        console.error("[shinjeong] Kakao failed (Sheet succeeded):", kakaoResult.error)
-      }
-
-      return { success: true }
+    if (!kakaoResult.success) {
+      console.error("[shinjeong] Kakao failed (Sheet succeeded):", kakaoResult.error)
     }
 
-    throw new Error(`Sheet submission failed: ${response.status}`)
+    return { success: true }
   } catch (error) {
     console.error("[shinjeong] Submission error:", error)
     return {
