@@ -74,8 +74,14 @@ components/newdomain/
 `app/actions/submit-lead-newdomain.ts` 파일을 생성합니다. 기존 `app/actions/submit-lead.ts`를 참고하되, 환경변수 이름을 도메인에 맞게 변경합니다.
 
 ```typescript
-// 예시: 도메인별 환경변수 사용
-const response = await fetch(process.env.NEWDOMAIN_APPS_SCRIPT_URL!, { ... })
+// 예시: 도메인별 환경변수로 Google Sheets API 호출
+import { appendRow } from "@/lib/google-sheets"
+
+await appendRow(
+  process.env.NEWDOMAIN_SHEET_ID!,
+  process.env.NEWDOMAIN_SHEET_TAB || "Sheet1",
+  [timestamp, formData.name, formData.phone]
+)
 ```
 
 #### 1-5. Google Analytics 설정 (필요 시)
@@ -88,12 +94,14 @@ const response = await fetch(process.env.NEWDOMAIN_APPS_SCRIPT_URL!, { ... })
 
 ```bash
 # newdomain - Google Sheet 연동
-NEWDOMAIN_APPS_SCRIPT_URL=https://script.google.com/macros/s/xxxxx/exec
-NEWDOMAIN_SECRET_TOKEN=your_secret_token_here
+NEWDOMAIN_SHEET_ID=your-spreadsheet-id-here
+NEWDOMAIN_SHEET_TAB=Sheet1
 
 # newdomain - 카카오 알림톡 (비워두면 알림톡 발송 생략)
 NEWDOMAIN_KAKAO_TEMPLATE_ID=
 ```
+
+> **참고**: Google Sheet에 Service Account 이메일(`GOOGLE_SERVICE_ACCOUNT_EMAIL`)을 편집자로 공유해야 합니다.
 
 ### Step 2: nginx 설정
 
@@ -214,15 +222,17 @@ http://localhost:3000/?site=shinjeong    # shinjeong.vc 페이지
 
 | 변수명 | 설명 | 예시 |
 |--------|------|------|
-| `APPS_SCRIPT_URL` | stockplus.im용 Google Apps Script 웹앱 URL | `https://script.google.com/macros/s/.../exec` |
-| `SECRET_TOKEN` | stockplus.im용 Apps Script 인증 토큰 | SHA-256 해시값 |
+| `GOOGLE_SERVICE_ACCOUNT_EMAIL` | Google Sheets API Service Account 이메일 | `sa@project.iam.gserviceaccount.com` |
+| `GOOGLE_PRIVATE_KEY` | Service Account 비밀키 (PEM 형식) | `"-----BEGIN PRIVATE KEY-----\n..."` |
+| `STOCKPLUS_SHEET_ID` | stockplus.im용 Google Sheet ID | 스프레드시트 URL의 `/d/` 뒤 ID |
+| `STOCKPLUS_SHEET_TAB` | stockplus.im용 시트 탭 이름 | `Sheet1` |
+| `SHINJEONG_SHEET_ID` | shinjeong.vc용 Google Sheet ID | 스프레드시트 URL의 `/d/` 뒤 ID |
+| `SHINJEONG_SHEET_TAB` | shinjeong.vc용 시트 탭 이름 | `Sheet1` |
 | `SOLAPI_API_KEY` | SOLAPI(문자/알림톡) API Key | `NCSYGUFYOU...` |
 | `SOLAPI_API_SECRET_KEY` | SOLAPI API Secret Key | `VLWGRR5I...` |
 | `SOLAPI_FROM_NUMBER` | 발신 전화번호 | `01012345678` |
 | `KAKAO_CHANNEL_ID` | 카카오 채널 ID (알림톡 발송용) | `KA01PF...` |
 | `KAKAO_TEMPLATE_ID` | stockplus.im용 카카오 알림톡 템플릿 ID | `KA01TP...` |
-| `SHINJEONG_APPS_SCRIPT_URL` | shinjeong.vc용 Google Apps Script 웹앱 URL | `https://script.google.com/macros/s/.../exec` |
-| `SHINJEONG_SECRET_TOKEN` | shinjeong.vc용 Apps Script 인증 토큰 | SHA-256 해시값 |
 | `SHINJEONG_KAKAO_TEMPLATE_ID` | shinjeong.vc용 알림톡 템플릿 ID (비워두면 생략) | `KA01TP...` |
 
 > **참고**: `.env.local` 파일은 git에 커밋하지 않습니다. 서버에서 직접 관리합니다.
