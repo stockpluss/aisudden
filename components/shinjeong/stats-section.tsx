@@ -18,9 +18,6 @@ export function StatsSection() {
           <h2 className="text-3xl md:text-4xl font-black text-foreground text-balance">
             숫자로 증명하는 신뢰
           </h2>
-          <p className="text-muted-foreground mt-3 text-balance">
-            매달 홈페이지에 실적을 투명하게 공개합니다
-          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -40,12 +37,6 @@ export function StatsSection() {
           ))}
         </div>
 
-        {/* Transparency notice */}
-        <div className="mt-8 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-          <div className="h-px flex-1 bg-border max-w-[80px]" />
-          <span>* 투명한 성과 공유를 위해 매달 공증을 받아 홈페이지에 업로드하고 있습니다.</span>
-          <div className="h-px flex-1 bg-border max-w-[80px]" />
-        </div>
       </div>
     </section>
   )

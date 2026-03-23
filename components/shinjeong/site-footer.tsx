@@ -13,7 +13,7 @@ export function SiteFooter() {
             </div>
             <span className="text-base font-black text-foreground">신정투자그룹</span>
           </div>
-          <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
+          <p className="text-sm text-muted-foreground max-w-sm">
             실시간 급등주 포착 서비스. 거래량, 언론이슈, 기업공시를 분석해 투자 기회를 제공합니다.
           </p>
         </div>

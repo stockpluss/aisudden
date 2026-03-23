@@ -207,9 +207,6 @@ export function PerformanceSection() {
           ))}
         </div>
 
-        <p className="text-xs text-muted-foreground text-center mt-4">
-          * 위 실적은 공증된 자료를 기반으로 하며, 과거 성과가 미래 수익을 보장하지 않습니다.
-        </p>
       </div>
     </section>
   )
