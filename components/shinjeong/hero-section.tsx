@@ -124,7 +124,7 @@ export function HeroSection() {
 
   return (
     <section
-      className="relative min-h-[85vh] lg:min-h-screen flex flex-col overflow-hidden"
+      className="relative min-h-[85vh] flex flex-col overflow-hidden"
       style={{
         background: "linear-gradient(160deg, oklch(0.20 0.05 260) 0%, oklch(0.16 0.03 252) 50%, oklch(0.14 0.04 245) 100%)",
       }}
