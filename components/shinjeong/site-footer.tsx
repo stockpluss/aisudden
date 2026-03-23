@@ -9,7 +9,7 @@ export function SiteFooter() {
               className="w-8 h-8 rounded-lg flex items-center justify-center text-primary-foreground font-black text-sm"
               style={{ background: "oklch(0.65 0.22 255)" }}
             >
-              AI
+              SJ
             </div>
             <span className="text-base font-black text-foreground">신정투자그룹</span>
           </div>
