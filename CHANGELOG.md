@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-03-23
+
+### Added
+- Result images (`sj_gr_01.jpg` ~ `sj_gr_04.jpg`) displayed in responsive grid layout (PC: 2x2, Mobile: 1x4) on shinjeong.vc page
+
+### Changed
+- Removed AI-related text from shinjeong.vc layout metadata, hero section, and features section
+- Replaced stats section (numeric statistics) with result images grid on shinjeong.vc page
+- Renamed brand from "스탁플러스" to "신정투자그룹" in shinjeong.vc footer and privacy policy
+
 ## [2.0.0] - 2026-03-11
 
 ### Added
