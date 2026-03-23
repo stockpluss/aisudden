@@ -19,7 +19,7 @@ jobs:
           HAS_SSH_KEY: ${{ secrets.EC2_SSH_KEY != '' }}
           HAS_HOST: ${{ secrets.EC2_HOST != '' }}
           HAS_SLACK_TOKEN: ${{ secrets.LANDING_PAGE_DEPLOYER_TOKEN != '' }}
-          HAS_SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL_ID != '' }}
+          HAS_SLACK_CHANNEL: ${{ vars.LANDING_PAGE_NOTI_CHANNEL_ID != '' }}
           HAS_NGINX_PATH: ${{ vars.NGINX_CONFIG_PATH != '' }}
         run: |
           MISSING=0
@@ -36,7 +36,7 @@ jobs:
             MISSING=1
           fi
           if [ "$HAS_SLACK_CHANNEL" != "true" ]; then
-            echo "::error::Missing required secret: SLACK_CHANNEL_ID"
+            echo "::error::Missing required variable: LANDING_PAGE_NOTI_CHANNEL_ID"
             MISSING=1
           fi
           if [ "$HAS_NGINX_PATH" != "true" ]; then
@@ -145,7 +145,7 @@ jobs:
         if: success()
         env:
           SLACK_TOKEN: ${{ secrets.LANDING_PAGE_DEPLOYER_TOKEN }}
-          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL_ID }}
+          SLACK_CHANNEL: ${{ vars.LANDING_PAGE_NOTI_CHANNEL_ID }}
         run: |
           curl -X POST https://slack.com/api/chat.postMessage \
             -H "Authorization: Bearer $SLACK_TOKEN" \
@@ -168,7 +168,7 @@ jobs:
         if: failure()
         env:
           SLACK_TOKEN: ${{ secrets.LANDING_PAGE_DEPLOYER_TOKEN }}
-          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL_ID }}
+          SLACK_CHANNEL: ${{ vars.LANDING_PAGE_NOTI_CHANNEL_ID }}
         run: |
           curl -X POST https://slack.com/api/chat.postMessage \
             -H "Authorization: Bearer $SLACK_TOKEN" \
