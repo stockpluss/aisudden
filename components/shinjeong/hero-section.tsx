@@ -150,8 +150,8 @@ export function HeroSection() {
       />
 
       {/* Main content */}
-      <div className="relative z-10 flex-1 flex items-center">
-        <div className="w-full max-w-6xl mx-auto px-5 py-4 lg:py-20 flex flex-col lg:flex-row items-center gap-8 lg:gap-20">
+      <div className="relative z-10 flex-1 flex items-start lg:items-center">
+        <div className="w-full max-w-6xl mx-auto px-5 pt-2 pb-4 lg:py-20 flex flex-col lg:flex-row items-center gap-8 lg:gap-20">
 
           {/* Left — copy */}
           <div className="flex-1 flex flex-col items-center lg:items-start gap-5 lg:gap-8 text-center lg:text-left w-full">
