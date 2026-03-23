@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2026-03-23
+
+### Changed
+- Updated shinjeong.vc hero headline to "혼자 찾기 어려운 급등주, 실시간 알림으로 받아보세요"
+- Changed shinjeong.vc section heading to "실제 포착 사례" with added description text below image grid
+- Changed CTA button text to "급등주 받아보기"
+- Updated footer subtitle text
+- Reduced hero top padding on mobile for better visual balance
+- Added business registration info to footer (사업자등록번호 261-03-03355, 대표자 김경덕)
+
+### Removed
+- Stats section (+47%, 85%, 24/7) from shinjeong.vc page
+- Performance section from shinjeong.vc page
+
 ## [2.1.0] - 2026-03-23
 
 ### Added
