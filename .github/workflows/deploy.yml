@@ -18,7 +18,7 @@ jobs:
         env:
           HAS_SSH_KEY: ${{ secrets.EC2_SSH_KEY != '' }}
           HAS_HOST: ${{ secrets.EC2_HOST != '' }}
-          HAS_SLACK_WEBHOOK: ${{ secrets.LANDING_PAGE_DEPLOYER_TOKEN != '' }}
+          HAS_SLACK_WEBHOOK: ${{ secrets.LANDING_PAGE_DEPLOYER_WEBHOOK != '' }}
           HAS_NGINX_PATH: ${{ vars.NGINX_CONFIG_PATH != '' }}
         run: |
           MISSING=0
@@ -31,7 +31,7 @@ jobs:
             MISSING=1
           fi
           if [ "$HAS_SLACK_WEBHOOK" != "true" ]; then
-            echo "::error::Missing required secret: LANDING_PAGE_DEPLOYER_TOKEN"
+            echo "::error::Missing required secret: LANDING_PAGE_DEPLOYER_WEBHOOK"
             MISSING=1
           fi
           if [ "$HAS_NGINX_PATH" != "true" ]; then
@@ -139,7 +139,7 @@ jobs:
       - name: Slack Notification (Success)
         if: success()
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.LANDING_PAGE_DEPLOYER_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.LANDING_PAGE_DEPLOYER_WEBHOOK }}
         run: |
           curl -X POST "$SLACK_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
@@ -159,7 +159,7 @@ jobs:
       - name: Slack Notification (Failure)
         if: failure()
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.LANDING_PAGE_DEPLOYER_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.LANDING_PAGE_DEPLOYER_WEBHOOK }}
         run: |
           curl -X POST "$SLACK_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
