@@ -8,9 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.1.0] - 2026-03-23
 
 ### Added
+- Concurrency control in deploy workflow to prevent overlapping deployments
+- Secret and variable validation step that checks all required credentials before deployment
+- nginx config management: backup, version comment injection, validation (`nginx -t`), and automatic rollback on failure
+- Post-deployment health checks for all 4 domains (stockplus.im, www.stockplus.im, shinjeong.vc, www.shinjeong.vc)
+- Slack notifications on deployment success (green) and failure (red with @mention)
 - Result images (`sj_gr_01.jpg` ~ `sj_gr_04.jpg`) displayed in responsive grid layout (PC: 2x2, Mobile: 1x4) on shinjeong.vc page
 
 ### Changed
+- Separated `pnpm install` and `pnpm run build` into distinct workflow steps for fail-fast behavior
+- All secrets are now passed via environment variables, never exposed in workflow logs
 - Removed AI-related text from shinjeong.vc layout metadata, hero section, and features section
 - Replaced stats section (numeric statistics) with result images grid on shinjeong.vc page
 - Renamed brand from "스탁플러스" to "신정투자그룹" in shinjeong.vc footer and privacy policy
