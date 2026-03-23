@@ -11,7 +11,7 @@ export function SiteFooter() {
             >
               AI
             </div>
-            <span className="text-base font-black text-foreground">스탁플러스</span>
+            <span className="text-base font-black text-foreground">신정투자그룹</span>
           </div>
           <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
             AI 기반 실시간 급등주 포착 서비스. 거래량, 언론이슈, 기업공시를 분석해 투자 기회를 제공합니다.
@@ -37,7 +37,7 @@ export function SiteFooter() {
             <span>사업자등록번호: 000-00-00000</span>
             <span>통신판매업신고: 2024-서울-0000호</span>
           </div>
-          <p>© 2026 스탁플러스. All rights reserved.</p>
+          <p>© 2026 신정투자그룹. All rights reserved.</p>
         </div>
       </div>
     </footer>

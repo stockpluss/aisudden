@@ -41,7 +41,7 @@ function AISignalPanel({ visible, compact = false }: { visible: boolean; compact
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary" />
           </span>
           <span className="text-xs font-bold text-foreground/90">
-            {"AI \ubd84\uc11d \uc9c4\ud589 \uc911"}
+            {"\ubd84\uc11d \uc9c4\ud589 \uc911"}
           </span>
         </div>
         <span className="text-[10px] font-mono text-muted-foreground">
@@ -168,7 +168,7 @@ export function HeroSection() {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
               </span>
               <span className="text-sm text-foreground/80 font-semibold">
-                {"AI \uc2e4\uc2dc\uac04 \uc2dc\uc7a5 \ubd84\uc11d \uc911"}
+                {"\uc2e4\uc2dc\uac04 \uc2dc\uc7a5 \ubd84\uc11d \uc911"}
               </span>
             </div>
 
@@ -198,7 +198,7 @@ export function HeroSection() {
 
             <p className="text-sm md:text-lg text-foreground/70 leading-relaxed max-w-lg text-balance">
               {"\uac70\ub798\ub7c9 \u00b7 \uc5b8\ub860\uc774\uc288 \u00b7 \uae30\uc5c5\uacf5\uc2dc\ub97c "}
-              <span className="text-foreground font-semibold">{"AI\uac00 24\uc2dc\uac04"}</span>
+              <span className="text-foreground font-semibold">{"24\uc2dc\uac04"}</span>
               {" \ubd84\uc11d\ud574 \uae09\ub4f1 \uac00\ub2a5\uc131\uc774 \ub192\uc740 \uc885\ubaa9\uc744 \uc989\uc2dc \uc54c\ub824\ub4dc\ub9bd\ub2c8\ub2e4."}
             </p>
 

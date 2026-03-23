@@ -72,34 +72,34 @@ Fully rewrite `components/shinjeong/stats-section.tsx`:
 ## Completion Checklist
 
 ### FR-1: AI Text Removal
-- [ ] `layout.tsx` line 4: "AI" removed from title
-- [ ] `layout.tsx` line 6: "AI가" removed from description
-- [ ] `hero-section.tsx` line 44: "AI 분석 진행 중" -> "분석 진행 중"
-- [ ] `hero-section.tsx` line 171: "AI 실시간 시장 분석 중" -> "실시간 시장 분석 중"
-- [ ] `hero-section.tsx` line 201: "AI가 24시간" -> "24시간"
-- [ ] `features-section.tsx` line 8: "AI가 24시간 실시간으로 분석합니다" -> "24시간 실시간으로 분석합니다"
+- [x] `layout.tsx` line 4: "AI" removed from title — Verified in `app/shinjeong/layout.tsx:4`
+- [x] `layout.tsx` line 6: "AI가" removed from description — Verified in `app/shinjeong/layout.tsx:6`
+- [x] `hero-section.tsx` line 44: "AI 분석 진행 중" -> "분석 진행 중" — Verified in `components/shinjeong/hero-section.tsx:44`
+- [x] `hero-section.tsx` line 171: "AI 실시간 시장 분석 중" -> "실시간 시장 분석 중" — Verified in `components/shinjeong/hero-section.tsx:171`
+- [x] `hero-section.tsx` line 201: "AI가 24시간" -> "24시간" — Verified in `components/shinjeong/hero-section.tsx:201`
+- [x] `features-section.tsx` line 8: "AI가 24시간 실시간으로 분석합니다" -> "24시간 실시간으로 분석합니다" — Verified in `components/shinjeong/features-section.tsx:8`
 
 ### FR-2: Stats Section Image Replacement
-- [ ] `public/images/shinjeong/` directory created
-- [ ] `sj_gr_01.jpg` through `sj_gr_04.jpg` copied to `public/images/shinjeong/`
-- [ ] `stats-section.tsx` rewritten: "use client" removed
-- [ ] `stats-section.tsx` rewritten: StatItem, Counter, STATS removed
-- [ ] `stats-section.tsx` rewritten: Image import from next/image added
-- [ ] `stats-section.tsx` rewritten: 4 images in responsive grid (grid-cols-2 desktop, grid-cols-1 mobile)
-- [ ] `stats-section.tsx` rewritten: meaningful alt text on each image
-- [ ] `stats-section.tsx` rewritten: section header and transparency notice preserved
+- [x] `public/images/shinjeong/` directory created
+- [x] `sj_gr_01.jpg` through `sj_gr_04.jpg` copied to `public/images/shinjeong/` (all 4 files non-empty)
+- [x] `stats-section.tsx` rewritten: "use client" removed — no "use client" directive present
+- [x] `stats-section.tsx` rewritten: StatItem, Counter, STATS removed — none present
+- [x] `stats-section.tsx` rewritten: Image import from next/image added — Verified in `components/shinjeong/stats-section.tsx:1`
+- [x] `stats-section.tsx` rewritten: 4 images in responsive grid (grid-cols-2 desktop, grid-cols-1 mobile) — Verified in `components/shinjeong/stats-section.tsx:26`
+- [x] `stats-section.tsx` rewritten: meaningful alt text on each image — Verified in `components/shinjeong/stats-section.tsx:4-7`
+- [x] `stats-section.tsx` rewritten: section header and transparency notice preserved — Verified in `components/shinjeong/stats-section.tsx:16,44-48`
 
 ### FR-3: Brand Name Change
-- [ ] `site-footer.tsx` line 14: "스탁플러스" -> "신정투자그룹"
-- [ ] `site-footer.tsx` line 40: "© 2026 스탁플러스" -> "© 2026 신정투자그룹"
-- [ ] `fixed-cta.tsx` line 178: "스탁플러스" -> "신정투자그룹"
+- [x] `site-footer.tsx` line 14: "스탁플러스" -> "신정투자그룹" — Verified in `components/shinjeong/site-footer.tsx:14`
+- [x] `site-footer.tsx` line 40: "© 2026 스탁플러스" -> "© 2026 신정투자그룹" — Verified in `components/shinjeong/site-footer.tsx:40`
+- [x] `fixed-cta.tsx` line 178: "스탁플러스" -> "신정투자그룹" — Verified in `components/shinjeong/fixed-cta.tsx:178`
 
 ### Verification
-- [ ] `pnpm build` succeeds without errors
-- [ ] No references to "스탁플러스" remain in shinjeong components
-- [ ] AI-related text properly removed/modified in all specified locations
-- [ ] Images load correctly at `/images/shinjeong/sj_gr_0{1-4}.jpg`
-- [ ] Responsive layout: 2x2 on desktop, 1x4 on mobile
+- [x] `pnpm build` succeeds without errors — Build compiled successfully
+- [x] No references to "스탁플러스" remain in shinjeong components — Grep returned zero matches
+- [x] AI-related text properly removed/modified in all specified locations
+- [x] Images load correctly at `/images/shinjeong/sj_gr_0{1-4}.jpg` — All 4 files exist and are non-empty
+- [x] Responsive layout: 2x2 on desktop, 1x4 on mobile — grid-cols-1 / md:grid-cols-2 confirmed
 
 ## Notes
 

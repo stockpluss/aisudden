@@ -1,88 +1,11 @@
-"use client"
+import Image from "next/image"
 
-import { useEffect, useRef, useState } from "react"
-
-interface StatItem {
-  value: number
-  prefix: string
-  suffix: string
-  label: string
-  description: string
-  color: string
-}
-
-const STATS: StatItem[] = [
-  {
-    value: 47.3,
-    prefix: "+",
-    suffix: "%",
-    label: "평균 수익률",
-    description: "AI 시그널 적용 기준",
-    color: "text-primary",
-  },
-  {
-    value: 24,
-    prefix: "",
-    suffix: "/7",
-    label: "실시간 분석",
-    description: "24시간 365일 운영",
-    color: "text-secondary",
-  },
-  {
-    value: 12,
-    prefix: "+",
-    suffix: "건",
-    label: "일 평균 급등주 포착",
-    description: "하루 평균 시그널 발송",
-    color: "text-primary",
-  },
-  {
-    value: 98,
-    prefix: "",
-    suffix: "%",
-    label: "회원 만족도",
-    description: "실제 이용자 설문 기준",
-    color: "text-secondary",
-  },
+const IMAGES = [
+  { src: "/images/shinjeong/sj_gr_01.jpg", alt: "신정투자그룹 월간 수익률 실적 그래프" },
+  { src: "/images/shinjeong/sj_gr_02.jpg", alt: "신정투자그룹 급등주 포착 성공률 통계" },
+  { src: "/images/shinjeong/sj_gr_03.jpg", alt: "신정투자그룹 종목별 수익 실적 차트" },
+  { src: "/images/shinjeong/sj_gr_04.jpg", alt: "신정투자그룹 회원 수익 달성 현황" },
 ]
-
-function Counter({ value, prefix, suffix, color }: { value: number; prefix: string; suffix: string; color: string }) {
-  const [count, setCount] = useState(0)
-  const ref = useRef<HTMLDivElement>(null)
-  const started = useRef(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !started.current) {
-          started.current = true
-          const duration = 1800
-          const steps = 60
-          const stepVal = value / steps
-          let current = 0
-          const timer = setInterval(() => {
-            current += stepVal
-            if (current >= value) {
-              setCount(value)
-              clearInterval(timer)
-            } else {
-              setCount(parseFloat(current.toFixed(1)))
-            }
-          }, duration / steps)
-        }
-      },
-      { threshold: 0.3 }
-    )
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
-  }, [value])
-
-  return (
-    <div ref={ref} className={`text-4xl md:text-5xl font-black ${color}`} suppressHydrationWarning>
-      {prefix}{count}{suffix}
-    </div>
-  )
-}
 
 export function StatsSection() {
   return (
@@ -100,15 +23,19 @@ export function StatsSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {STATS.map((stat) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {IMAGES.map((img) => (
             <div
-              key={stat.label}
-              className="flex flex-col items-center gap-2 p-6 rounded-2xl border border-border bg-background/50 text-center"
+              key={img.src}
+              className="rounded-2xl border border-border bg-background/50 overflow-hidden"
             >
-              <Counter value={stat.value} prefix={stat.prefix} suffix={stat.suffix} color={stat.color} />
-              <p className="text-sm font-bold text-foreground">{stat.label}</p>
-              <p className="text-xs text-muted-foreground">{stat.description}</p>
+              <Image
+                src={img.src}
+                alt={img.alt}
+                width={600}
+                height={400}
+                className="w-full h-auto"
+              />
             </div>
           ))}
         </div>
