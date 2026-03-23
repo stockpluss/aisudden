@@ -4,23 +4,23 @@ import { useEffect, useRef, useState } from "react"
 import { TrendingUp, ArrowDown } from "lucide-react"
 
 const PAIN_POINTS = [
-  "\ud799\ub4e4\uac8c \ubd84\uc11d\ud574\ub3c4 \uc0c1\uc2b9\uc8fc\ub97c \ub193\uce58\uace0 \uc788\ub2e4\uba74?",
-  "\uace0\ub974\ub294 \uc8fc\uc2dd\ub9c8\ub2e4 \ub9e4\ubc88 \uc2e4\ud328\ud558\uace0 \uc788\ub2e4\uba74?",
+  "힘들게 분석해도 상승주를 놓치고 있다면?",
+  "고르는 주식마다 매번 실패하고 있다면?",
 ]
 
 const STATS = [
-  { value: "+47%", label: "\uc6d4 \ud3c9\uade0 \uc218\uc775\ub960" },
-  { value: "85%", label: "\ucd5c\uadfc \uc2b9\ub960" },
-  { value: "24/7", label: "AI \uc2e4\uc2dc\uac04 \ubd84\uc11d" },
+  { value: "+47%", label: "월 평균 수익률" },
+  { value: "85%", label: "최근 승률" },
+  { value: "24/7", label: "실시간 분석" },
 ]
 
 // AI analysis signal meter — the jlinvestad-style "hook" element
 const SIGNALS = [
-  { label: "\uac70\ub798\ub7c9 \uc774\uc0c1 \uc9d5\ud6c4", score: 92, color: "oklch(0.62 0.22 255)" },
-  { label: "\uc5b8\ub860 \ucda9\uaca9\ub3c4", score: 78, color: "oklch(0.78 0.15 200)" },
-  { label: "\uc678\uad6d\uc778 \uc21c\ub9e4\uc218", score: 85, color: "oklch(0.62 0.22 255)" },
-  { label: "\uae30\uc5c5\uacf5\uc2dc \uc601\ud5a5\ub3c4", score: 61, color: "oklch(0.78 0.15 200)" },
-  { label: "\uc2dc\uc138 \ubaa8\uba58\ud140", score: 88, color: "oklch(0.62 0.22 255)" },
+  { label: "거래량 이상 징후", score: 92, color: "oklch(0.62 0.22 255)" },
+  { label: "언론 충격도", score: 78, color: "oklch(0.78 0.15 200)" },
+  { label: "외국인 순매수", score: 85, color: "oklch(0.62 0.22 255)" },
+  { label: "기업공시 영향도", score: 61, color: "oklch(0.78 0.15 200)" },
+  { label: "시세 모멘텀", score: 88, color: "oklch(0.62 0.22 255)" },
 ]
 
 function AISignalPanel({ visible, compact = false }: { visible: boolean; compact?: boolean }) {
@@ -41,11 +41,11 @@ function AISignalPanel({ visible, compact = false }: { visible: boolean; compact
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary" />
           </span>
           <span className="text-xs font-bold text-foreground/90">
-            {"AI \ubd84\uc11d \uc9c4\ud589 \uc911"}
+            분석 진행 중
           </span>
         </div>
         <span className="text-[10px] font-mono text-muted-foreground">
-          {"KOSPI \u00b7 KOSDAQ"}
+          KOSPI · KOSDAQ
         </span>
       </div>
 
@@ -68,7 +68,7 @@ function AISignalPanel({ visible, compact = false }: { visible: boolean; compact
                   className="text-xs font-black tabular-nums"
                   style={{ color: sig.color }}
                 >
-                  {visible ? sig.score : 0}{"pts"}
+                  {visible ? sig.score : 0}pts
                 </span>
               </div>
               <div
@@ -98,14 +98,14 @@ function AISignalPanel({ visible, compact = false }: { visible: boolean; compact
         <div className="flex items-center gap-2">
           <TrendingUp className="h-3.5 w-3.5 text-primary" />
           <span className="text-xs font-bold text-primary">
-            {"\uae09\ub4f1 \uc2e0\ud638 \uac10\uc9c0"}
+            급등 신호 감지
           </span>
         </div>
         <span
           className="text-[10px] font-black px-2 py-0.5 rounded-full"
           style={{ background: "oklch(0.62 0.22 255 / 0.2)", color: "oklch(0.62 0.22 255)" }}
         >
-          {"3\uac1c \uc885\ubaa9"}
+          3개 종목
         </span>
       </div>
     </div>
@@ -168,14 +168,14 @@ export function HeroSection() {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
               </span>
               <span className="text-sm text-foreground/80 font-semibold">
-                {"AI \uc2e4\uc2dc\uac04 \uc2dc\uc7a5 \ubd84\uc11d \uc911"}
+                실시간 시장 분석 중
               </span>
             </div>
 
             {/* Headline */}
             <h1 className="text-4xl sm:text-5xl md:text-[64px] font-black leading-[1.1] tracking-tight text-balance">
               <span className="text-foreground">
-                {"\ube60\ub978 \uc815\ubcf4\uac00"}
+                빠른 정보가
               </span>
               <br />
               <span
@@ -187,7 +187,7 @@ export function HeroSection() {
                   filter: "drop-shadow(0 0 24px oklch(0.62 0.22 255 / 0.45))",
                 }}
               >
-                {"\uc218\uc775\uc785\ub2c8\ub2e4"}
+                수익입니다
               </span>
             </h1>
 
@@ -197,9 +197,9 @@ export function HeroSection() {
             </div>
 
             <p className="text-sm md:text-lg text-foreground/70 leading-relaxed max-w-lg text-balance">
-              {"\uac70\ub798\ub7c9 \u00b7 \uc5b8\ub860\uc774\uc288 \u00b7 \uae30\uc5c5\uacf5\uc2dc\ub97c "}
-              <span className="text-foreground font-semibold">{"AI\uac00 24\uc2dc\uac04"}</span>
-              {" \ubd84\uc11d\ud574 \uae09\ub4f1 \uac00\ub2a5\uc131\uc774 \ub192\uc740 \uc885\ubaa9\uc744 \uc989\uc2dc \uc54c\ub824\ub4dc\ub9bd\ub2c8\ub2e4."}
+              거래량 · 언론이슈 · 기업공시를{" "}
+              <span className="text-foreground font-semibold">24시간</span>
+              {" "}분석해 급등 가능성이 높은 종목을 즉시 알려드립니다.
             </p>
 
             {/* Pain points */}
@@ -232,7 +232,7 @@ export function HeroSection() {
             </div>
 
             <p className="text-xs text-foreground/35">
-              {"* \ud22c\uc790 \uacb0\uacfc\uc5d0 \ub530\ub77c \uc6d0\uae08 \uc190\uc2e4\uc774 \ubc1c\uc0dd\ud560 \uc218 \uc788\uc73c\uba70, \uadf8 \uc190\uc2e4\uc740 \ud22c\uc790\uc790\uc5d0\uac8c \uadc0\uc18d\ub429\ub2c8\ub2e4."}
+              * 투자 결과에 따라 원금 손실이 발생할 수 있으며, 그 손실은 투자자에게 귀속됩니다.
             </p>
           </div>
 
@@ -247,7 +247,7 @@ export function HeroSection() {
       <button
         onClick={scrollDown}
         className="relative z-10 mb-8 mx-auto flex flex-col items-center gap-1.5 text-foreground/35 hover:text-foreground/60 transition-colors animate-bounce"
-        aria-label="\uc544\ub798\ub85c \uc2a4\ud06c\ub864"
+        aria-label="아래로 스크롤"
       >
         <span className="text-xs tracking-wider uppercase font-semibold">Scroll</span>
         <ArrowDown className="h-3.5 w-3.5" />

@@ -98,7 +98,7 @@ export function ShinjeongFixedCTA() {
               <form onSubmit={handleSubmit} className="space-y-2.5">
                 <div className="text-center">
                   <h3 className="text-base sm:text-lg font-bold text-primary-foreground mb-1">
-                    AI 급등주<span className="text-primary"> 무료</span> 받기
+                    급등주<span className="text-primary"> 무료</span> 받기
                   </h3>
                 </div>
 
@@ -175,7 +175,7 @@ export function ShinjeongFixedCTA() {
               <p className="font-semibold">시행일자: 2025년 7월 29일</p>
 
               <p>
-                스탁플러스(이하 &ldquo;회사&rdquo;라 함)는 이용자의 개인정보를 소중히 여기며, 『개인정보 보호법』 등 관련 법령을
+                신정투자그룹(이하 &ldquo;회사&rdquo;라 함)는 이용자의 개인정보를 소중히 여기며, 『개인정보 보호법』 등 관련 법령을
                 준수하고 있습니다. 본 개인정보처리방침은 회사가 운영하는 서비스 내 푸터 문의폼 기능을 통해 수집되는
                 개인정보의 처리에 대해 안내합니다.
               </p>
