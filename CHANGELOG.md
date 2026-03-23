@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-03-23
+
+### Added
+- Concurrency control in deploy workflow to prevent overlapping deployments
+- Secret and variable validation step that checks all required credentials before deployment
+- nginx config management: backup, version comment injection, validation (`nginx -t`), and automatic rollback on failure
+- Post-deployment health checks for all 4 domains (stockplus.im, www.stockplus.im, shinjeong.vc, www.shinjeong.vc)
+- Slack notifications on deployment success (green) and failure (red with @mention)
+
+### Changed
+- Separated `pnpm install` and `pnpm run build` into distinct workflow steps for fail-fast behavior
+- All secrets are now passed via environment variables, never exposed in workflow logs
+
 ## [2.0.0] - 2026-03-11
 
 ### Added

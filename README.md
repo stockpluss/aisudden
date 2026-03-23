@@ -159,10 +159,15 @@ www.newdomain.com  A    <EC2_PUBLIC_IP>
 
 코드 변경 사항을 `main` 브랜치에 push하면 GitHub Actions가 자동으로 다음을 수행합니다.
 
-1. 코드를 EC2로 rsync
-2. `pnpm install --frozen-lockfile` 실행
-3. `pnpm run build` 실행
-4. `pm2 restart aisudden` 으로 서비스 재시작
+1. **시크릿/변수 검증** - 필수 시크릿 및 변수 존재 여부 확인
+2. **코드 전송** - 코드를 EC2로 rsync
+3. **빌드** - `pnpm install --frozen-lockfile` 및 `pnpm run build` (별도 단계, 빌드 실패 시 즉시 중단)
+4. **nginx 관리** - 설정 백업 → 버전 코멘트 삽입 → `nginx -t` 검증 → reload (실패 시 자동 롤백)
+5. **PM2 재시작** - `pm2 restart aisudden`
+6. **헬스체크** - 4개 도메인(stockplus.im, www.stockplus.im, shinjeong.vc, www.shinjeong.vc) HTTP 200 확인
+7. **Slack 알림** - 배포 성공(녹색) 또는 실패(빨간색 + @멘션) 알림 전송
+
+> **동시성 제어**: 동일 시점에 중복 배포가 발생하지 않도록 concurrency group이 설정되어 있습니다.
 
 ### Step 6: 서버 환경변수 설정
 
@@ -235,6 +240,16 @@ http://localhost:3000/?site=shinjeong    # shinjeong.vc 페이지
 | `KAKAO_TEMPLATE_ID` | stockplus.im용 카카오 알림톡 템플릿 ID | `KA01TP...` |
 | `SHINJEONG_KAKAO_TEMPLATE_ID` | shinjeong.vc용 알림톡 템플릿 ID (비워두면 생략) | `KA01TP...` |
 
+### GitHub Secrets / Variables (CI/CD)
+
+| 이름 | 유형 | 설명 |
+|------|------|------|
+| `EC2_SSH_KEY` | Secret | EC2 접속용 SSH 프라이빗 키 |
+| `EC2_HOST` | Secret | EC2 퍼블릭 IP 또는 호스트명 |
+| `LANDING_PAGE_DEPLOYER_TOKEN` | Secret | Slack Bot Token (배포 알림 전송용) |
+| `SLACK_CHANNEL_ID` | Secret | Slack 알림 대상 채널 ID |
+| `NGINX_CONFIG_PATH` | Variable | EC2 서버의 nginx 설정 파일 경로 (예: `/etc/nginx/sites-enabled/aisudden`) |
+
 > **참고**: `.env.local` 파일은 git에 커밋하지 않습니다. 서버에서 직접 관리합니다.
 
 ---
@@ -267,7 +282,7 @@ aisudden/
     analytics.ts              # 도메인별 GA 전환 추적
   public/                     # 정적 파일 (이미지, 파비콘 등)
   .github/workflows/
-    deploy.yml                # GitHub Actions 배포 워크플로우
+    deploy.yml                # GitHub Actions 배포 워크플로우 (헬스체크, Slack 알림, nginx 관리 포함)
 ```
 
 ---
