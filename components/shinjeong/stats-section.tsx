@@ -16,7 +16,7 @@ export function StatsSection() {
             검증된 실적
           </p>
           <h2 className="text-3xl md:text-4xl font-black text-foreground text-balance">
-            숫자로 증명하는 신뢰
+            실제 포착 사례
           </h2>
         </div>
 
@@ -35,6 +35,15 @@ export function StatsSection() {
               />
             </div>
           ))}
+        </div>
+
+        <div className="mt-8 text-center">
+          <p className="text-sm md:text-base font-semibold text-foreground">
+            거래량 급증 + 상승 시그널 포착 후 알림 발송
+          </p>
+          <p className="text-sm text-muted-foreground mt-1">
+            포착 시점 이후 상승 흐름 확인
+          </p>
         </div>
 
       </div>

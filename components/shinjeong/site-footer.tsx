@@ -1,6 +1,6 @@
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border bg-card py-10">
+    <footer className="border-t border-border bg-card py-10 pb-36">
       <div className="max-w-5xl mx-auto px-6 flex flex-col gap-6">
         {/* Brand */}
         <div className="flex flex-col gap-2">
@@ -14,7 +14,7 @@ export function SiteFooter() {
             <span className="text-base font-black text-foreground">신정투자그룹</span>
           </div>
           <p className="text-sm text-muted-foreground max-w-sm">
-            실시간 급등주 포착 서비스. 거래량, 언론이슈, 기업공시를 분석해 투자 기회를 제공합니다.
+            실시간 급등주 포착 서비스 거래량, 언론이슈, 기업공시를 분석해 정보를 제공합니다
           </p>
         </div>
 
@@ -33,9 +33,9 @@ export function SiteFooter() {
         {/* Bottom row */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-xs text-muted-foreground pt-2">
           <div className="flex flex-wrap gap-x-4 gap-y-1">
-            <span>대표자: 홍길동</span>
-            <span>사업자등록번호: 000-00-00000</span>
-            <span>통신판매업신고: 2024-서울-0000호</span>
+            <span>대표자: 김경덕</span>
+            <span>사업자등록번호: 261-03-03355</span>
+
           </div>
           <p>© 2026 신정투자그룹. All rights reserved.</p>
         </div>

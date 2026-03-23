@@ -8,12 +8,6 @@ const PAIN_POINTS = [
   "고르는 주식마다 매번 실패하고 있다면?",
 ]
 
-const STATS = [
-  { value: "+47%", label: "월 평균 수익률" },
-  { value: "85%", label: "최근 승률" },
-  { value: "24/7", label: "실시간 분석" },
-]
-
 // AI analysis signal meter — the jlinvestad-style "hook" element
 const SIGNALS = [
   { label: "거래량 이상 징후", score: 92, color: "oklch(0.62 0.22 255)" },
@@ -130,7 +124,7 @@ export function HeroSection() {
 
   return (
     <section
-      className="relative min-h-screen flex flex-col overflow-hidden"
+      className="relative lg:min-h-[85vh] flex flex-col overflow-hidden"
       style={{
         background: "linear-gradient(160deg, oklch(0.20 0.05 260) 0%, oklch(0.16 0.03 252) 50%, oklch(0.14 0.04 245) 100%)",
       }}
@@ -156,8 +150,8 @@ export function HeroSection() {
       />
 
       {/* Main content */}
-      <div className="relative z-10 flex-1 flex items-center">
-        <div className="w-full max-w-6xl mx-auto px-5 py-10 lg:py-20 flex flex-col lg:flex-row items-center gap-8 lg:gap-20">
+      <div className="relative z-10 flex-1 flex items-start lg:items-center">
+        <div className="w-full max-w-6xl mx-auto px-5 pt-8 pb-4 lg:py-20 flex flex-col lg:flex-row items-center gap-8 lg:gap-20">
 
           {/* Left — copy */}
           <div className="flex-1 flex flex-col items-center lg:items-start gap-5 lg:gap-8 text-center lg:text-left w-full">
@@ -175,7 +169,7 @@ export function HeroSection() {
             {/* Headline */}
             <h1 className="text-4xl sm:text-5xl md:text-[64px] font-black leading-[1.1] tracking-tight text-balance">
               <span className="text-foreground">
-                빠른 정보가
+                혼자 찾기 어려운 급등주,
               </span>
               <br />
               <span
@@ -187,7 +181,7 @@ export function HeroSection() {
                   filter: "drop-shadow(0 0 24px oklch(0.62 0.22 255 / 0.45))",
                 }}
               >
-                수익입니다
+                실시간 알림으로 받아보세요
               </span>
             </h1>
 
@@ -216,20 +210,6 @@ export function HeroSection() {
               ))}
             </div>
 
-            {/* Stats row */}
-            <div className="flex flex-wrap justify-center lg:justify-start gap-6 lg:gap-8 pt-1 w-full">
-              {STATS.map((s, i) => (
-                <div key={s.label} className="flex flex-col items-center lg:items-start gap-0.5">
-                  <span
-                    className="text-xl lg:text-2xl font-black"
-                    style={{ color: i % 2 === 0 ? "oklch(0.62 0.22 255)" : "oklch(0.78 0.15 200)" }}
-                  >
-                    {s.value}
-                  </span>
-                  <span className="text-xs text-foreground/55 font-medium">{s.label}</span>
-                </div>
-              ))}
-            </div>
 
             <p className="text-xs text-foreground/35">
               * 투자 결과에 따라 원금 손실이 발생할 수 있으며, 그 손실은 투자자에게 귀속됩니다.
@@ -246,7 +226,7 @@ export function HeroSection() {
       {/* Scroll cue */}
       <button
         onClick={scrollDown}
-        className="relative z-10 mb-8 mx-auto flex flex-col items-center gap-1.5 text-foreground/35 hover:text-foreground/60 transition-colors animate-bounce"
+        className="relative z-10 mb-4 mx-auto flex flex-col items-center gap-1.5 text-foreground/35 hover:text-foreground/60 transition-colors animate-bounce"
         aria-label="아래로 스크롤"
       >
         <span className="text-xs tracking-wider uppercase font-semibold">Scroll</span>
