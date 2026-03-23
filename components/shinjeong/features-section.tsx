@@ -3,7 +3,7 @@ import { BrainCircuit, Bell, BarChart3, ShieldCheck, Newspaper, TrendingUp } fro
 const FEATURES = [
   {
     icon: BrainCircuit,
-    title: "AI 실시간 시장 분석",
+    title: "실시간 시장 분석",
     description:
       "거래량, 주식시장, 언론이슈, 기업공시를 24시간 실시간으로 분석합니다. 사람이 놓치는 미세한 패턴까지 포착합니다.",
     highlight: true,
@@ -51,14 +51,14 @@ export function FeaturesSection() {
       <div className="max-w-5xl mx-auto px-6">
         <div className="text-center mb-14">
           <p className="text-sm font-semibold text-accent uppercase tracking-widest mb-3">
-            Why AI Signal
+            Why Our Signal
           </p>
           <h2 className="text-3xl md:text-4xl font-black text-foreground text-balance">
-            AI 급등주, 이렇게{" "}
+            급등주, 이렇게{" "}
             <span className="text-primary">다릅니다</span>
           </h2>
           <p className="text-muted-foreground mt-3 max-w-lg mx-auto text-balance">
-            기존 투자 정보 서비스와 근본적으로 다른 AI 기반 접근 방식
+            기존 투자 정보 서비스와 근본적으로 다른 접근 방식
           </p>
         </div>
 

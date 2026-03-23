@@ -98,7 +98,7 @@ export function ShinjeongFixedCTA() {
               <form onSubmit={handleSubmit} className="space-y-2.5">
                 <div className="text-center">
                   <h3 className="text-base sm:text-lg font-bold text-primary-foreground mb-1">
-                    AI 급등주<span className="text-primary"> 무료</span> 받기
+                    급등주<span className="text-primary"> 무료</span> 받기
                   </h3>
                 </div>
 
