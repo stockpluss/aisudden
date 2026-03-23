@@ -98,7 +98,7 @@ export function ShinjeongFixedCTA() {
               <form onSubmit={handleSubmit} className="space-y-2.5">
                 <div className="text-center">
                   <h3 className="text-base sm:text-lg font-bold text-primary-foreground mb-1">
-                    급등주<span className="text-primary"> 무료</span> 받기
+                    급등주 받아보기
                   </h3>
                 </div>
 
@@ -131,7 +131,7 @@ export function ShinjeongFixedCTA() {
                     disabled={!formData.agreed || isSubmitting}
                     className="h-10 px-6 sm:px-8 bg-secondary text-secondary-foreground hover:bg-secondary/90 font-bold text-sm sm:text-base shadow-lg disabled:opacity-50 whitespace-nowrap"
                   >
-                    {isSubmitting ? "전송중..." : "무료 받기"}
+                    {isSubmitting ? "전송중..." : "급등주 받아보기"}
                   </Button>
                 </div>
 
