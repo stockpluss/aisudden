@@ -1,6 +1,6 @@
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border bg-card py-10 pb-24">
+    <footer className="border-t border-border bg-card py-10 pb-36">
       <div className="max-w-5xl mx-auto px-6 flex flex-col gap-6">
         {/* Brand */}
         <div className="flex flex-col gap-2">
