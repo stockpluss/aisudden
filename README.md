@@ -29,7 +29,7 @@ newdomain.com -->  /newdomain  (새 도메인 추가 시)
 | 도메인 | 내부 경로 | 설명 |
 |--------|-----------|------|
 | stockplus.im | `/stockplus` | AI 급등주포착 스탁플러스 |
-| shinjeong.vc | `/shinjeong` | 신정VC |
+| shinjeong.vc | `/shinjeong` | 신정투자그룹 |
 
 ---
 
