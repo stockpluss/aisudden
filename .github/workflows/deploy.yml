@@ -121,6 +121,8 @@ jobs:
 
       - name: Health Checks
         run: |
+          echo "Waiting 5s for server startup..."
+          sleep 5
           DOMAINS="stockplus.im www.stockplus.im shinjeong.vc www.shinjeong.vc"
           FAILED=0
           for domain in $DOMAINS; do
