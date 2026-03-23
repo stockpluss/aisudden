@@ -4,28 +4,185 @@ on:
   push:
     branches: [main]
 
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+      - name: Validate Secrets and Variables
+        env:
+          HAS_SSH_KEY: ${{ secrets.EC2_SSH_KEY != '' }}
+          HAS_HOST: ${{ secrets.EC2_HOST != '' }}
+          HAS_SLACK_TOKEN: ${{ secrets.LANDING_PAGE_DEPLOYER_TOKEN != '' }}
+          HAS_SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL_ID != '' }}
+          HAS_NGINX_PATH: ${{ vars.NGINX_CONFIG_PATH != '' }}
+        run: |
+          MISSING=0
+          if [ "$HAS_SSH_KEY" != "true" ]; then
+            echo "::error::Missing required secret: EC2_SSH_KEY"
+            MISSING=1
+          fi
+          if [ "$HAS_HOST" != "true" ]; then
+            echo "::error::Missing required secret: EC2_HOST"
+            MISSING=1
+          fi
+          if [ "$HAS_SLACK_TOKEN" != "true" ]; then
+            echo "::error::Missing required secret: LANDING_PAGE_DEPLOYER_TOKEN"
+            MISSING=1
+          fi
+          if [ "$HAS_SLACK_CHANNEL" != "true" ]; then
+            echo "::error::Missing required secret: SLACK_CHANNEL_ID"
+            MISSING=1
+          fi
+          if [ "$HAS_NGINX_PATH" != "true" ]; then
+            echo "::error::Missing required variable: NGINX_CONFIG_PATH"
+            MISSING=1
+          fi
+          if [ "$MISSING" -eq 1 ]; then
+            exit 1
+          fi
+          echo "All required secrets and variables are present."
+
       - name: Setup SSH
+        env:
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          EC2_HOST: ${{ secrets.EC2_HOST }}
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          printf '%s\n' "$EC2_SSH_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H "$EC2_HOST" >> ~/.ssh/known_hosts
 
       - name: Rsync to EC2
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
         run: |
           rsync -avz \
             --exclude '.git' \
             --exclude 'node_modules' \
             --exclude '.next' \
             --exclude '.env.local' \
-            ./ ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/aisudden/
+            ./ ubuntu@$EC2_HOST:/home/ubuntu/aisudden/
 
-      - name: Build and Restart
+      - name: Install Dependencies
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
         run: |
-          ssh ubuntu@${{ secrets.EC2_HOST }} 'source ~/.nvm/nvm.sh && export PATH="/home/ubuntu/.local/share/pnpm:$PATH" && cd /home/ubuntu/aisudden && pnpm install --frozen-lockfile && pnpm run build && pm2 restart aisudden'
+          ssh ubuntu@$EC2_HOST 'source ~/.nvm/nvm.sh && export PATH="/home/ubuntu/.local/share/pnpm:$PATH" && cd /home/ubuntu/aisudden && pnpm install --frozen-lockfile'
+
+      - name: Build
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+        run: |
+          ssh ubuntu@$EC2_HOST 'source ~/.nvm/nvm.sh && export PATH="/home/ubuntu/.local/share/pnpm:$PATH" && cd /home/ubuntu/aisudden && pnpm run build'
+
+      - name: "nginx: Backup Config"
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          NGINX_CONFIG_PATH: ${{ vars.NGINX_CONFIG_PATH }}
+        run: |
+          ssh ubuntu@$EC2_HOST "sudo cp $NGINX_CONFIG_PATH ${NGINX_CONFIG_PATH}.old"
+
+      - name: "nginx: Add Version Comment"
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          NGINX_CONFIG_PATH: ${{ vars.NGINX_CONFIG_PATH }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          ssh ubuntu@$EC2_HOST "sudo sed -i '1{/^# v/d}' $NGINX_CONFIG_PATH && sudo sed -i '1i\\# v2.1.0 - \$(date +%Y-%m-%d) - $COMMIT_SHA' $NGINX_CONFIG_PATH"
+
+      - name: "nginx: Validate Config"
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          NGINX_CONFIG_PATH: ${{ vars.NGINX_CONFIG_PATH }}
+        run: |
+          ssh ubuntu@$EC2_HOST "if ! sudo nginx -t; then
+            echo 'nginx validation failed, rolling back...'
+            if [ -f '${NGINX_CONFIG_PATH}.old' ]; then
+              sudo cp '${NGINX_CONFIG_PATH}.old' '$NGINX_CONFIG_PATH'
+              echo 'Rollback completed from .old backup'
+            else
+              echo 'No .old backup found, cannot rollback'
+            fi
+            exit 1
+          fi"
+
+      - name: "nginx: Reload"
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+        run: |
+          ssh ubuntu@$EC2_HOST 'sudo nginx -s reload'
+
+      - name: PM2 Restart
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+        run: |
+          ssh ubuntu@$EC2_HOST 'source ~/.nvm/nvm.sh && cd /home/ubuntu/aisudden && pm2 restart aisudden'
+
+      - name: Health Checks
+        run: |
+          DOMAINS="stockplus.im www.stockplus.im shinjeong.vc www.shinjeong.vc"
+          FAILED=0
+          for domain in $DOMAINS; do
+            HTTP_CODE=$(curl -o /dev/null -s -w "%{http_code}" --retry 3 --retry-delay 5 --max-time 10 "https://${domain}")
+            if [ "$HTTP_CODE" -ne 200 ]; then
+              echo "FAIL: ${domain} returned HTTP ${HTTP_CODE}"
+              FAILED=1
+            else
+              echo "OK: ${domain} returned HTTP 200"
+            fi
+          done
+          if [ "$FAILED" -eq 1 ]; then
+            exit 1
+          fi
+
+      - name: Slack Notification (Success)
+        if: success()
+        env:
+          SLACK_TOKEN: ${{ secrets.LANDING_PAGE_DEPLOYER_TOKEN }}
+          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL_ID }}
+        run: |
+          curl -X POST https://slack.com/api/chat.postMessage \
+            -H "Authorization: Bearer $SLACK_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"channel\": \"$SLACK_CHANNEL\",
+              \"text\": \"Deployment successful: aisudden @ ${GITHUB_SHA::7}\",
+              \"attachments\": [{
+                \"color\": \"#36a64f\",
+                \"fields\": [
+                  {\"title\": \"Repository\", \"value\": \"${{ github.repository }}\", \"short\": true},
+                  {\"title\": \"Branch\", \"value\": \"${{ github.ref_name }}\", \"short\": true},
+                  {\"title\": \"Commit\", \"value\": \"${{ github.sha }}\", \"short\": false},
+                  {\"title\": \"Action\", \"value\": \"<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Run>\", \"short\": false}
+                ]
+              }]
+            }"
+
+      - name: Slack Notification (Failure)
+        if: failure()
+        env:
+          SLACK_TOKEN: ${{ secrets.LANDING_PAGE_DEPLOYER_TOKEN }}
+          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL_ID }}
+        run: |
+          curl -X POST https://slack.com/api/chat.postMessage \
+            -H "Authorization: Bearer $SLACK_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"channel\": \"$SLACK_CHANNEL\",
+              \"text\": \"Deployment FAILED: aisudden @ ${GITHUB_SHA::7} <@U09ML6H3EBY>\",
+              \"attachments\": [{
+                \"color\": \"#ff0000\",
+                \"fields\": [
+                  {\"title\": \"Repository\", \"value\": \"${{ github.repository }}\", \"short\": true},
+                  {\"title\": \"Branch\", \"value\": \"${{ github.ref_name }}\", \"short\": true},
+                  {\"title\": \"Commit\", \"value\": \"${{ github.sha }}\", \"short\": false},
+                  {\"title\": \"Action\", \"value\": \"<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Run>\", \"short\": false}
+                ]
+              }]
+            }"
