@@ -18,8 +18,7 @@ jobs:
         env:
           HAS_SSH_KEY: ${{ secrets.EC2_SSH_KEY != '' }}
           HAS_HOST: ${{ secrets.EC2_HOST != '' }}
-          HAS_SLACK_TOKEN: ${{ secrets.LANDING_PAGE_DEPLOYER_TOKEN != '' }}
-          HAS_SLACK_CHANNEL: ${{ vars.LANDING_PAGE_NOTI_CHANNEL_ID != '' }}
+          HAS_SLACK_WEBHOOK: ${{ secrets.LANDING_PAGE_DEPLOYER_TOKEN != '' }}
           HAS_NGINX_PATH: ${{ vars.NGINX_CONFIG_PATH != '' }}
         run: |
           MISSING=0
@@ -31,12 +30,8 @@ jobs:
             echo "::error::Missing required secret: EC2_HOST"
             MISSING=1
           fi
-          if [ "$HAS_SLACK_TOKEN" != "true" ]; then
+          if [ "$HAS_SLACK_WEBHOOK" != "true" ]; then
             echo "::error::Missing required secret: LANDING_PAGE_DEPLOYER_TOKEN"
-            MISSING=1
-          fi
-          if [ "$HAS_SLACK_CHANNEL" != "true" ]; then
-            echo "::error::Missing required variable: LANDING_PAGE_NOTI_CHANNEL_ID"
             MISSING=1
           fi
           if [ "$HAS_NGINX_PATH" != "true" ]; then
@@ -144,14 +139,11 @@ jobs:
       - name: Slack Notification (Success)
         if: success()
         env:
-          SLACK_TOKEN: ${{ secrets.LANDING_PAGE_DEPLOYER_TOKEN }}
-          SLACK_CHANNEL: ${{ vars.LANDING_PAGE_NOTI_CHANNEL_ID }}
+          SLACK_WEBHOOK_URL: ${{ secrets.LANDING_PAGE_DEPLOYER_TOKEN }}
         run: |
-          curl -X POST https://slack.com/api/chat.postMessage \
-            -H "Authorization: Bearer $SLACK_TOKEN" \
+          curl -X POST "$SLACK_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
             -d "{
-              \"channel\": \"$SLACK_CHANNEL\",
               \"text\": \"Deployment successful: aisudden @ ${GITHUB_SHA::7}\",
               \"attachments\": [{
                 \"color\": \"#36a64f\",
@@ -167,14 +159,11 @@ jobs:
       - name: Slack Notification (Failure)
         if: failure()
         env:
-          SLACK_TOKEN: ${{ secrets.LANDING_PAGE_DEPLOYER_TOKEN }}
-          SLACK_CHANNEL: ${{ vars.LANDING_PAGE_NOTI_CHANNEL_ID }}
+          SLACK_WEBHOOK_URL: ${{ secrets.LANDING_PAGE_DEPLOYER_TOKEN }}
         run: |
-          curl -X POST https://slack.com/api/chat.postMessage \
-            -H "Authorization: Bearer $SLACK_TOKEN" \
+          curl -X POST "$SLACK_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
             -d "{
-              \"channel\": \"$SLACK_CHANNEL\",
               \"text\": \"Deployment FAILED: aisudden @ ${GITHUB_SHA::7} <@U09ML6H3EBY>\",
               \"attachments\": [{
                 \"color\": \"#ff0000\",
