@@ -207,6 +207,9 @@ export function PerformanceSection() {
           ))}
         </div>
 
+        <p className="text-xs text-muted-foreground text-center mt-4">
+          * 과거 성과가 미래 수익을 보장하지 않습니다.
+        </p>
       </div>
     </section>
   )
