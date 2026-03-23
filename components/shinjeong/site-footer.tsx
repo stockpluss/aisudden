@@ -1,6 +1,6 @@
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border bg-card py-10">
+    <footer className="border-t border-border bg-card py-10 pb-48">
       <div className="max-w-5xl mx-auto px-6 flex flex-col gap-6">
         {/* Brand */}
         <div className="flex flex-col gap-2">
@@ -35,7 +35,7 @@ export function SiteFooter() {
           <div className="flex flex-wrap gap-x-4 gap-y-1">
             <span>대표자: 김경덕</span>
             <span>사업자등록번호: 261-03-03355</span>
-            <span>통신판매업신고: 2024-서울-0000호</span>
+
           </div>
           <p>© 2026 신정투자그룹. All rights reserved.</p>
         </div>

@@ -124,7 +124,7 @@ export function HeroSection() {
 
   return (
     <section
-      className="relative min-h-screen flex flex-col overflow-hidden"
+      className="relative min-h-[85vh] lg:min-h-screen flex flex-col overflow-hidden"
       style={{
         background: "linear-gradient(160deg, oklch(0.20 0.05 260) 0%, oklch(0.16 0.03 252) 50%, oklch(0.14 0.04 245) 100%)",
       }}
@@ -226,7 +226,7 @@ export function HeroSection() {
       {/* Scroll cue */}
       <button
         onClick={scrollDown}
-        className="relative z-10 mb-8 mx-auto flex flex-col items-center gap-1.5 text-foreground/35 hover:text-foreground/60 transition-colors animate-bounce"
+        className="relative z-10 mb-4 mx-auto flex flex-col items-center gap-1.5 text-foreground/35 hover:text-foreground/60 transition-colors animate-bounce"
         aria-label="아래로 스크롤"
       >
         <span className="text-xs tracking-wider uppercase font-semibold">Scroll</span>
